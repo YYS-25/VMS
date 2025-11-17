@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<AnchorPane stylesheets="@dashboard.css">
+
+<BorderPane prefWidth="1280" prefHeight="800"
+            maxWidth="1280" maxHeight="800"
+            minWidth="1280" minHeight="800"
+            fx:controller="pkg.vms.controller.DashboardController"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- ============= LEFT SIDEBAR ============= -->
+    <left>
+        <VBox prefWidth="220" style="-fx-background-color: #650000;" spacing="20" alignment="TOP_CENTER">
+
+            <!-- Top space -->
+            <Label text="" prefHeight="20"/>
+
+            <!-- Menu Icon -->
+            <Button text="☰"
+                    style="-fx-font-size: 20; -fx-background-color: transparent; -fx-text-fill: white;" />
+
+            <!-- Sidebar Items -->
+            <VBox spacing="15" alignment="TOP_LEFT" style="-fx-padding: 20;">
+                <Button text="Dashboard"   styleClass="sidebar-button"/>
+                <Button text="Requests"    styleClass="sidebar-button"/>
+                <Button text="Clients"     styleClass="sidebar-button"/>
+                <Button text="Vouchers"    styleClass="sidebar-button"/>
+                <Button text="Branches"    styleClass="sidebar-button"/>
+                <Button text="Users"       styleClass="sidebar-button"/>
+                <Button text="Reports"     styleClass="sidebar-button"/>
+            </VBox>
+
+            <!-- Push items up -->
+            <Pane VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+    </left>
+
+    <!-- ============= TOP HEADER ============= -->
+    <top>
+        <HBox prefHeight="70" spacing="20"
+              style="-fx-background-color: #f7eed4; -fx-padding: 10; -fx-border-color: black; -fx-border-width: 0 0 2 0;"
+              alignment="CENTER_LEFT">
+
+            <Label text="Voucher Management System"
+                   style="-fx-font-size: 20; -fx-font-weight: bold;"
+                   HBox.hgrow="ALWAYS"/>
+
+            <Label fx:id="usernameLabel" text="Logged in as: Bobby"
+                   style="-fx-font-size: 16;"/>
+
+            <Label fx:id="roleLabel" text="Role: Superuser"
+                   style="-fx-font-size: 16;"/>
+        </HBox>
+    </top>
+
+    <!-- ============= MAIN CONTENT AREA ============= -->
+    <center>
+        <GridPane hgap="60" vgap="40" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+            </columnConstraints>
+
+            <!-- Row 1 -->
+            <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <ImageView fx:id="iconRequests" fitWidth="120" fitHeight="120"/>
+                <Label text="Voucher Requests"/>
+            </VBox>
+
+            <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <ImageView fx:id="iconClients" fitWidth="120" fitHeight="120"/>
+                <Label text="Clients"/>
+            </VBox>
+
+            <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                <ImageView fx:id="iconVouchers" fitWidth="120" fitHeight="120"/>
+                <Label text="Vouchers"/>
+            </VBox>
+
+            <!-- Row 2 -->
+            <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"/>
+                <Label text="Branches"/>
+            </VBox>
+
+            <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <ImageView fx:id="iconUsers" fitWidth="120" fitHeight="120"/>
+                <Label text="Users"/>
+            </VBox>
+
+            <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                <ImageView fx:id="iconReports" fitWidth="120" fitHeight="120"/>
+                <Label text="Reports"/>
+            </VBox>
+
+        </GridPane>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,88 @@
+/* ============================================
+   DASHBOARD LAYOUT — STYLES SPECIFIC TO THIS PAGE
+   ============================================ */
+
+/* ----------------------------
+   SIDEBAR
+   ---------------------------- */
+.sidebar {
+    -fx-background-color: -fx-dark-red;
+    -fx-padding: 20 10;
+    -fx-spacing: 20;
+}
+
+.sidebar-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 0 10 10;
+    -fx-background-radius: 4;
+}
+
+.sidebar-btn:hover {
+    -fx-background-color: derive(-fx-dark-red, 20%);
+}
+
+/* selected menu item */
+.sidebar-btn-active {
+    -fx-background-color: derive(-fx-dark-red, 35%);
+    -fx-font-weight: bold;
+}
+
+
+/* ----------------------------
+   TOP HEADER BAR
+   ---------------------------- */
+.top-header {
+    -fx-background-color: -fx-cream;
+    -fx-padding: 15;
+    -fx-border-color: -fx-dark-blue;
+    -fx-border-width: 0 0 2 0;
+}
+
+.header-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-dark-blue;
+}
+
+.header-userinfo {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-dark-blue;
+}
+
+
+/* ----------------------------
+   MAIN ICON GRID
+   ---------------------------- */
+.dashboard-icon-box {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.dashboard-icon-box .label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-dark-blue;
+    -fx-font-weight: bold;
+}
+
+.dashboard-icon-box:hover {
+    -fx-opacity: 0.7;
+    -fx-cursor: hand;
+}
+
+
+/* OPTIONAL: card-style box if you want white background panels */
+.dashboard-card {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
