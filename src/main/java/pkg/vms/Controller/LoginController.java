@@ -1,4 +1,4 @@
-package pkg.vms.Controller;
+package pkg.vms.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
