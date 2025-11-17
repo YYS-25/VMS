@@ -1,141 +1,70 @@
-// java
 package pkg.vms.model;
 
-import java.io.*;
-import java.util.*;
+import javafx.beans.property.*;
 
-/**
- *
- */
 public class Users {
 
-    /**
-     * Default constructor
-     */
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String role;
+    private String password;
+    private String ddl;
+    private String titre;
+    private String status;
+
+    // Constructors
     public Users() {
+        // empty constructor
     }
 
-    /**
-     *
-     */
-    public String username;
-
-    /**
-     *
-     */
-    public String first_name_user;
-
-    /**
-     *
-     */
-    public String last_name_user;
-
-    /**
-     *
-     */
-    public String email_user;
-
-    /**
-     *
-     */
-    public String role;
-
-    /**
-     *
-     */
-    public String password;
-
-    /**
-     *
-     */
-    public String ddl;
-
-    /**
-     *
-     */
-    public String titre;
-
-    /**
-     *
-     */
-    public String status;
-
-    /**
-     * Attempt login by checking provided password against stored password.
-     *
-     * @param password the password to check
-     * @return true if credentials match, false otherwise
-     */
-    public boolean login(String password) {
-        if (password == null || this.password == null) return false;
-        return this.password.equals(password);
+    public Users(String username, String firstName, String lastName, String email, String role, String password,
+                 String ddl, String titre, String status) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+        this.password = password;
+        this.ddl = ddl;
+        this.titre = titre;
+        this.status = status;
     }
 
-    /**
-     * Logout the user (minimal stub).
-     */
-    public void logout() {
-        // minimal logout behaviour: mark status
-        this.status = "LoggedOut";
-    }
+    // ===== JavaFX properties for TableView =====
+    public StringProperty usernameProperty() { return new SimpleStringProperty(username); }
+    public StringProperty firstNameProperty() { return new SimpleStringProperty(firstName); }
+    public StringProperty lastNameProperty() { return new SimpleStringProperty(lastName); }
+    public StringProperty emailProperty() { return new SimpleStringProperty(email); }
+    public StringProperty roleProperty() { return new SimpleStringProperty(role); }
+    public StringProperty statusProperty() { return new SimpleStringProperty(status); }
 
-    /**
-     * Initiate a request on behalf of this user.
-     *
-     * @param request the request to initiate
-     */
-    public void initiateRequest(Requests request) {
-        if (request == null) return;
-        // associate request with this user and set initial status
-        request.ref_client = this.username != null ? this.username.hashCode() : 0;
-        request.setStatus("Initiated");
-        request.creation_date = request.creation_date == null ? new Date() : request.creation_date;
-    }
+    // ===== Getters and Setters =====
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    /**
-     * Pay a request (delegates to Requests.processPayment).
-     *
-     * @param request the request to pay
-     */
-    public void payRequest(Requests request) {
-        if (request == null) return;
-        // minimal payment: use stored payment info if available
-        String paymentMethod = request.payment != null ? request.payment : "Unknown";
-        request.processPayment(paymentMethod, new Date(), request.proof_of_request);
-        request.status_payment = "Paid";
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    /**
-     * Approve a request (delegates to Requests.approveRequest).
-     *
-     * @param request the request to approve
-     */
-    public void approveRequest(Requests request) {
-        if (request == null) return;
-        request.approveRequest(this);
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    /**
-     * Generate vouchers for a request (delegates to Requests.generateVouchers).
-     *
-     * @param request the request to generate vouchers for
-     * @return list of generated vouchers or empty list
-     */
-    public List<Vouchers> generateVoucher(Requests request) {
-        if (request == null) return Collections.emptyList();
-        List<Vouchers> v = request.generateVouchers();
-        return v == null ? Collections.emptyList() : v;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    /**
-     * Redeem a voucher at a branch (delegates to Vouchers.redeemVoucher).
-     *
-     * @param voucher the voucher to redeem
-     * @param branch the branch where redemption happens
-     */
-    public void redeemVoucher(Vouchers voucher, Branch branch) {
-        if (voucher == null) return;
-        voucher.redeemVoucher(branch, this);
-    }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getDdl() { return ddl; }
+    public void setDdl(String ddl) { this.ddl = ddl; }
+
+    public String getTitre() { return titre; }
+    public void setTitre(String titre) { this.titre = titre; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

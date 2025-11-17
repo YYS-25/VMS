@@ -16,7 +16,7 @@ public class Vouchers {
     private String status_voucher;
 
     //constructor
-    public Vouchers() {}
+    public Vouchers(int id, int quantity, double price, String status, int requestId) {}
 
     //constructor
     public Vouchers(int ref_client, String code_voucher, double price, boolean redeemed) {
@@ -24,6 +24,9 @@ public class Vouchers {
         this.code_voucher = code_voucher;
         this.price = price;
         this.redeemed = redeemed;
+    }
+
+    public Vouchers(int refVoucher, int valVoucher, java.sql.Date initDate, java.sql.Date expiryDate, String statusVoucher, java.sql.Date dateRedeemed, String bearer, int refRequest, String redeemedBy, String redeemedBranch) {
     }
 
     // Getters & Setters

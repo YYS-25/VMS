@@ -1,5 +1,7 @@
 package pkg.vms.model;
 
+import javafx.beans.property.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -17,10 +19,11 @@ public class Clients {
     private List<Requests> requests = new ArrayList<>();
     private List<Vouchers> vouchers = new ArrayList<>();
 
-
     // constructors
-
-    public Clients() {}
+    public Clients(int id, String name) {
+        this.ref_client = id;
+        this.nom_client = name;
+    }
 
     public Clients(int ref_client, String nom_client, String email_client, String address_client, String phone_client) {
         this.ref_client = ref_client;
@@ -31,8 +34,6 @@ public class Clients {
     }
 
     // getters et setters
-
-
     public int getRef_client() { return ref_client; }
     public void setRef_client(int ref_client) { this.ref_client = ref_client; }
 
@@ -51,20 +52,25 @@ public class Clients {
     public List<Requests> getRequests() { return Collections.unmodifiableList(requests); }
     public List<Vouchers> getVouchers() { return Collections.unmodifiableList(vouchers); }
 
+    // ===== JavaFX properties for TableView =====
+    public IntegerProperty refClientProperty() {
+        return new SimpleIntegerProperty(this.ref_client);
+    }
 
+    public StringProperty nomClientProperty() {
+        return new SimpleStringProperty(this.nom_client);
+    }
     /**
      * Create a new request for this client.
      */
     public Requests createRequest(int voucherCount, int duration) {
-
+        // Use empty constructor
         Requests req = new Requests();
         req.ref_client = this.ref_client;
         req.num_voucher = voucherCount;
         req.duration_voucher = duration;
 
         req.creation_date = new Date();
-
-        // expiry = creation_date + duration days
         long expiryMillis = req.creation_date.getTime() + (duration * 24L * 60L * 60L * 1000L);
         req.expiry_voucher = new Date(expiryMillis);
 
@@ -72,7 +78,7 @@ public class Clients {
 
         this.requests.add(req);
 
-        // Attempt to generate vouchers (if implemented)
+        // Generate vouchers for this request if needed
         try {
             List<Vouchers> generated = req.generateVouchers();
             if (generated != null && !generated.isEmpty()) {
@@ -83,10 +89,6 @@ public class Clients {
         return req;
     }
 
-
-    /**
-     * Update client info.
-     */
     public void updateClientInfo(String name, String email, String address, String phone) {
         if (name != null) this.nom_client = name;
         if (email != null) this.email_client = email;
@@ -94,19 +96,11 @@ public class Clients {
         if (phone != null) this.phone_client = phone;
     }
 
-
-    /**
-     * Read-only access to requests
-     */
     public List<Requests> viewRequests() {
         return Collections.unmodifiableList(this.requests);
     }
 
-    /**
-     * Read-only access to vouchers
-     */
     public List<Vouchers> viewVouchers() {
         return Collections.unmodifiableList(this.vouchers);
     }
-
 }

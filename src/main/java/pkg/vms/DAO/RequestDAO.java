@@ -20,7 +20,7 @@ public class RequestDAO {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
 
-            Requests r = new Requests();
+            Requests r = new Requests(rs.getInt("id"), rs.getString("status"), rs.getInt("client_id"));
             r.ref_client = rs.getInt("ref_client");
             r.num_voucher = rs.getInt("num_voucher");
             r.duration_voucher = rs.getInt("duration_voucher");

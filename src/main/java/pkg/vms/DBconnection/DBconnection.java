@@ -17,7 +17,6 @@ public class DBconnection {
         if (conn != null) {
             return conn;
         }
-
         try {
             conn = DriverManager.getConnection(URL, USER, PASS);
             System.out.println("Connected to MySQL database.");

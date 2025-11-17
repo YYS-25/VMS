@@ -10,8 +10,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // Load the loginpage.fxml located in resources/pkg/vms/
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("loginpage.fxml"));
+        // Load the loginpage.fxml located in resources/pkg/vms/fxml/
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/pkg/vms/fxml/loginpage.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Login Page");

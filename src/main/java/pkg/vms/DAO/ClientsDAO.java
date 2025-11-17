@@ -3,7 +3,6 @@ package pkg.vms.DAO;
 import pkg.vms.model.Clients;
 import pkg.vms.DBconnection.DBconnection;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

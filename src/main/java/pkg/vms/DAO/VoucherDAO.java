@@ -20,7 +20,7 @@ public class VoucherDAO {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
 
-            Vouchers v = new Vouchers();
+            Vouchers v = new Vouchers(rs.getInt("id"), rs.getInt("quantity"), rs.getDouble("price"), rs.getString("status"), rs.getInt("request_id"));
             v.setRef_client(rs.getInt("ref_client"));
             v.setCode_voucher(rs.getString("code_voucher"));
             v.setPrice(rs.getDouble("price"));
