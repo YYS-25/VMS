@@ -23,8 +23,7 @@
           style="-fx-background-color: #f4ecd1; -fx-border-radius: 4; -fx-background-radius: 4;">
 
         <!-- Brown Square at top -->
-        <Rectangle width="140" height="100" fill="#7F3F3F"
-        />
+        <Rectangle width="140" height="100" fill="#7F3F3F" />
 
         <!-- Username row -->
         <HBox spacing="20" alignment="CENTER_LEFT">
