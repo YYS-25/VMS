@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox prefWidth="900" prefHeight="600">
+        <Pane prefHeight="300" style="-fx-background-color: #d9d9d9;" />
+        <Pane prefHeight="300" style="-fx-background-color: #63140F;" />
+    </VBox>
+
+    <!-- Center Card -->
+    <VBox spacing="25" alignment="CENTER"
+          layoutX="200" layoutY="120"
+          prefWidth="500" prefHeight="350"
+          style="-fx-background-color: #f4ecd1; -fx-border-radius: 4; -fx-background-radius: 4;">
+
+        <!-- Brown Square at top -->
+        <Rectangle width="140" height="100" fill="#7F3F3F"
+        />
+
+        <!-- Username row -->
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text=""
+                   style="-fx-font-size: 28px; -fx-font-family: 'Segoe UI Symbol';" />
+            <TextField promptText="Username"
+                       prefWidth="350"
+                       style="-fx-border-color: black; -fx-border-width: 0 0 2 0;" />
+        </HBox>
+
+
+        <!-- Password row -->
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="🔒"
+                   style="-fx-font-size: 26px;" />
+            <PasswordField promptText="Password"
+                           prefWidth="350"
+                           style="-fx-border-color: black; -fx-border-width: 0 0 2 0;" />
+        </HBox>
+
+
+        <!-- Buttons row -->
+        <HBox spacing="40" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button text="Cancel"
+                    prefWidth="120" prefHeight="40"
+                    style="-fx-background-color: #d7d7d7;" />
+            <Button text="Login"
+                    prefWidth="120" prefHeight="40"
+                    style="-fx-background-color: #0F2C45; -fx-text-fill: white;" />
+        </HBox>
+
+
+    </VBox>
+
+</AnchorPane>

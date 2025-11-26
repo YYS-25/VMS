@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pkg.vms.controller.layout.SidebarController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox prefWidth="220" style="-fx-background-color: #650000;" spacing="20" alignment="TOP_CENTER">
+
+        <!-- Top space -->
+        <Label text="" prefHeight="20"/>
+
+        <!-- Menu Icon -->
+                <Button text="☰"
+                accessibleText="Menu"
+                style="-fx-font-size: 20; -fx-background-color: transparent; -fx-text-fill: white;" />
+
+        <!-- Sidebar Items -->
+        <VBox>
+            <Button fx:id="dashboardButton"   text="Dashboard"   styleClass="sidebar-button"/>
+            <Button fx:id="requestsButton"    text="Requests"    styleClass="sidebar-button"/>
+            <Button fx:id="clientsButton"     text="Clients"     styleClass="sidebar-button"/>
+            <Button fx:id="vouchersButton"    text="Vouchers"    styleClass="sidebar-button"/>
+            <Button fx:id="branchesButton"    text="Branches"    styleClass="sidebar-button"/>
+            <Button fx:id="usersButton"       text="Users"       styleClass="sidebar-button"/>
+            <Button fx:id="reportsButton"     text="Reports"     styleClass="sidebar-button"/>
+            <Button text="Reports"     styleClass="sidebar-button"/>
+        </VBox>
+
+        <!-- Push items up -->
+        <Pane VBox.vgrow="ALWAYS"/>
+
+    </VBox>
+
+</AnchorPane>

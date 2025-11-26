@@ -1,61 +1,110 @@
-// src/main/java/pkg/vms/model/Vouchers.java
 package pkg.vms.model;
 
-import java.io.*;
-import java.util.*;
+import java.util.Date;
 
-/**
- *
- */
 public class Vouchers {
 
-    /**
-     * Default constructor
-     */
-    public Vouchers() {
+    private int ref_client;
+    private String code_voucher;
+    private double price;
+    private boolean redeemed;
+
+    private Date init_date;
+    private Date expiry_date;
+    private Date date_redeemed;
+    private String bearer;
+    private String status_voucher;
+
+    //constructor
+    public Vouchers() {}
+
+    //constructor
+    public Vouchers(int ref_client, String code_voucher, double price, boolean redeemed) {
+        this.ref_client = ref_client;
+        this.code_voucher = code_voucher;
+        this.price = price;
+        this.redeemed = redeemed;
     }
 
-    /**
-     *
-     */
-    public int ref_voucher;
+    // Getters & Setters
 
-    /**
-     *
-     */
-    public int val_voucher;
+    public int getRef_client() {
+        return ref_client;
+    }
 
-    /**
-     *
-     */
-    public Date init_date;
+    public void setRef_client(int ref_client) {
+        this.ref_client = ref_client;
+    }
 
-    /**
-     *
-     */
-    public Date expiry_date;
+    public String getCode_voucher() {
+        return code_voucher;
+    }
 
-    /**
-     *
-     */
-    public String status_voucher;
+    public void setCode_voucher(String code_voucher) {
+        this.code_voucher = code_voucher;
+    }
 
-    /**
-     *
-     */
-    public Date date_redeemed;
+    public double getPrice() {
+        return price;
+    }
 
-    /**
-     *
-     */
-    public String bearer;
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-    /**
-     * Activate the voucher (mark as active)
-     */
+    public boolean isRedeemed() {
+        return redeemed;
+    }
+
+    public void setRedeemed(boolean redeemed) {
+        this.redeemed = redeemed;
+    }
+
+    public Date getInit_date() {
+        return init_date;
+    }
+
+    public void setInit_date(Date init_date) {
+        this.init_date = init_date;
+    }
+
+    public Date getExpiry_date() {
+        return expiry_date;
+    }
+
+    public void setExpiry_date(Date expiry_date) {
+        this.expiry_date = expiry_date;
+    }
+
+    public Date getDate_redeemed() {
+        return date_redeemed;
+    }
+
+    public void setDate_redeemed(Date date_redeemed) {
+        this.date_redeemed = date_redeemed;
+    }
+
+    public String getBearer() {
+        return bearer;
+    }
+
+    public void setBearer(String bearer) {
+        this.bearer = bearer;
+    }
+
+    public String getStatus_voucher() {
+        return status_voucher;
+    }
+
+    public void setStatus_voucher(String status_voucher) {
+        this.status_voucher = status_voucher;
+    }
+
+    // Voucher logic
+
+    /** Activate the voucher */
     public void activateVoucher() {
-        // minimal activation logic
-        if (this.status_voucher == null || !this.status_voucher.equalsIgnoreCase("Redeemed")) {
+        if (!this.redeemed) {
             this.status_voucher = "Active";
             if (this.init_date == null) {
                 this.init_date = new Date();
@@ -63,47 +112,31 @@ public class Vouchers {
         }
     }
 
-    /**
-     * Redeem the voucher
-     */
-    public void redeemVoucher(Branch branch, Users user) {
-        // minimal redemption logic
+    /** Redeem the voucher */
+    public void redeemVoucher(Branch branch, Users users) {
+        this.redeemed = true;
         this.status_voucher = "Redeemed";
         this.date_redeemed = new Date();
-        if (user != null) {
-            // best-effort assign bearer if Users exposes a sensible toString or name field
-            this.bearer = user.toString();
-        }
     }
 
-    /**
-     * Check voucher validity against a provided date
-     */
+    /** Check if voucher is valid for a given date */
     public boolean checkValidity(Date currentDate) {
-        if (currentDate == null) return false;
-        if (this.init_date == null || this.expiry_date == null) return false;
-        boolean withinRange = !currentDate.before(this.init_date) && !currentDate.after(this.expiry_date);
-        boolean notRedeemed = this.status_voucher == null || !this.status_voucher.equalsIgnoreCase("Redeemed");
-        return withinRange && notRedeemed;
+        if (currentDate == null || init_date == null || expiry_date == null) return false;
+
+        boolean inRange =
+                !currentDate.before(init_date) &&
+                        !currentDate.after(expiry_date);
+
+        return inRange && !redeemed;
     }
 
-    /**
-     * Return a short info string about the voucher
-     */
+    /** Display voucher info */
     public String getVoucherInfo() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Voucher ref: ").append(this.ref_voucher)
-                .append(", value: ").append(this.val_voucher)
-                .append(", status: ").append(this.status_voucher == null ? "N/A" : this.status_voucher)
-                .append(", init: ").append(this.init_date == null ? "N/A" : this.init_date)
-                .append(", expiry: ").append(this.expiry_date == null ? "N/A" : this.expiry_date);
-        if (this.date_redeemed != null) {
-            sb.append(", redeemed: ").append(this.date_redeemed);
-        }
-        if (this.bearer != null) {
-            sb.append(", bearer: ").append(this.bearer);
-        }
-        return sb.toString();
+        return "Voucher: " + code_voucher +
+                ", price: " + price +
+                ", redeemed: " + redeemed +
+                ", init: " + init_date +
+                ", expiry: " + expiry_date +
+                ", bearer: " + bearer;
     }
-
 }
