@@ -33,6 +33,11 @@ public class ClientsController {
     @FXML private Label formTitle;
     @FXML private Button formSaveButton;
 
+    // Figma View
+    @FXML private VBox detailsPane;
+    @FXML private Label detailsTitle;
+    @FXML private Label detId, detName, detEmail, detAddress, detPhone, detRequests, detVouchers;
+
     // Switching between Add and Edit modes
     private boolean isEditMode = false;
     private Clients selectedClient = null;
@@ -166,6 +171,29 @@ public class ClientsController {
         addForm.setVisible(true);
         addForm.setManaged(true);
     }
+
+    // Figma View Details
+    @FXML
+    private void handleViewDetails() {
+        Clients c = clientsTable.getSelectionModel().getSelectedItem();
+        if (c == null) return;
+
+        detailsPane.setVisible(true);
+        detailsPane.setManaged(true);
+
+        detailsTitle.setText("Client Details (Selected: "
+                + c.getRef_client() + " - " + c.getNom_client() + ")");
+
+        detId.setText(String.valueOf(c.getRef_client()));
+        detName.setText(c.getNom_client());
+        detEmail.setText(c.getEmail_client());
+        detAddress.setText(c.getAddress_client());
+        detPhone.setText(c.getPhone_client());
+
+        detRequests.setText(String.valueOf(c.getRequests().size()));
+        detVouchers.setText(String.valueOf(c.getVouchers().size()));
+    }
+
 
 
     @FXML
