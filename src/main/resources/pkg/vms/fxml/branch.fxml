@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pkg.vms.controller.BranchController"
+            style="-fx-background-color: #f3e9d7;">   <!-- Cream background -->
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+            <Button text="Add new Company"
+                    style="-fx-background-color:#7c0d0d; -fx-text-fill: white; -fx-padding:8 18;"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CENTER AREA -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20;">
+
+            <!-- Breadcrumb -->
+            <Label text="[Dashboard] > [Branches]"
+                   style="-fx-font-size:13px; -fx-text-fill:black;"/>
+
+            <Separator style="-fx-background-color:black; -fx-padding:5 0;"/>
+
+            <!-- SEARCH + FILTER + ADD -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="🔍 Search Branch:" style="-fx-font-size:14px;"/>
+                    <TextField fx:id="searchField" prefWidth="200"/>
+                    <Button text="Search" style="-fx-background-color:#e0d4b8;"/>
+                </HBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Filter by Company:"/>
+                    <ComboBox fx:id="filterCompanyCombo" prefWidth="160"/>
+                </HBox>
+
+                <Button fx:id="addButton" text="+ Add New"
+                        style="-fx-background-color:#7c0d0d; -fx-text-fill:white;"/>
+            </HBox>
+
+            <Separator style="-fx-background-color:black;"/>
+
+            <!-- TABLE -->
+            <TableView fx:id="branchTable" prefHeight="260">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="locationColumn" text="Branch Name" prefWidth="170"/>
+                    <TableColumn text="Company" prefWidth="200"/>
+                    <TableColumn fx:id="responsibleColumn" text="Manager" prefWidth="130"/>
+                </columns>
+            </TableView>
+
+            <!-- ACTION BUTTONS -->
+            <HBox spacing="15" style="-fx-padding:10 0;">
+                <Button text="View Details" />
+                <Button fx:id="editButton" text="Edit" />
+                <Button fx:id="deleteButton" text="Delete" />
+                <Button text="Export Excel"/>
+            </HBox>
+
+            <Separator style="-fx-background-color:black;"/>
+
+            <!-- DETAILS PANEL -->
+            <VBox spacing="10">
+                <Label text="Branch Details (Selected: None)"
+                       fx:id="detailsTitle"
+                       style="-fx-font-size:14px; -fx-padding:5 0;"/>
+
+                <VBox style="-fx-background-color:#7c0d0d; -fx-padding:20; -fx-background-radius:4;"
+                      spacing="8">
+
+                    <Label fx:id="detailBranchId" text="Branch ID: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailBranchName" text="Branch Name: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailCompany" text="Company: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailCity" text="City: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailAddress" text="Address: -" style="-fx-text-fill:white;"/>
+                    <HBox spacing="20">
+                        <Label fx:id="detailContact" text="Contact: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailEmail" text="Email: -" style="-fx-text-fill:white;"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <Label fx:id="detailManager" text="Manager: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailIndustry" text="Industry: -" style="-fx-text-fill:white;"/>
+                    </HBox>
+
+                </VBox>
+
+                <HBox spacing="15" style="-fx-padding:10 0;">
+                    <Button text="Update Branch Info"/>
+                    <Button text="View Redemptions Made"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
