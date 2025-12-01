@@ -1,71 +1,36 @@
-// java
 package pkg.vms.model;
 
-import java.io.*;
-import java.util.*;
+import javafx.beans.property.*;
 
-/**
- *
- */
 public class Branch {
 
-    /**
-     * Default constructor
-     */
+    private int branchId;
+    private String location;
+    private String responsibleUser;
+
+    // Constructors
     public Branch() {
+        // empty constructor
     }
 
-    /**
-     *
-     */
-    public int branch_id;
-
-    /**
-     *
-     */
-    public String location;
-
-    /**
-     * Assigned responsible user for this branch
-     */
-    public Users responsible;
-
-    /**
-     * Redeemed vouchers recorded by this branch
-     */
-    public List<Vouchers> redeemedVouchers = new ArrayList<>();
-
-    /**
-     * Assign a responsible user to this branch
-     *
-     * @param user the user to assign
-     */
-    public void assignResponsible(Users user) {
-        if (user == null) return;
-        this.responsible = user;
+    public Branch(int branchId, String location, String responsibleUser) {
+        this.branchId = branchId;
+        this.location = location;
+        this.responsibleUser = responsibleUser;
     }
 
-    /**
-     * Return redeemed vouchers for this branch (never null)
-     *
-     * @return unmodifiable list of redeemed vouchers
-     */
-    public List<Vouchers> getRedeemedVouchers() {
-        return Collections.unmodifiableList(this.redeemedVouchers);
-    }
+    // ===== JavaFX properties for TableView =====
+    public IntegerProperty branchIdProperty() { return new SimpleIntegerProperty(branchId); }
+    public StringProperty locationProperty() { return new SimpleStringProperty(location); }
+    public StringProperty responsibleUserProperty() { return new SimpleStringProperty(responsibleUser); }
 
-    /**
-     * Simple branch report summarizing key info
-     *
-     * @return textual report
-     */
-    public String getBranchReport() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Branch id: ").append(this.branch_id)
-                .append(", location: ").append(this.location == null ? "N/A" : this.location)
-                .append(", responsible: ").append(this.responsible == null ? "N/A" : (this.responsible.username == null ? "N/A" : this.responsible.username))
-                .append(", redeemed vouchers: ").append(this.redeemedVouchers == null ? 0 : this.redeemedVouchers.size());
-        return sb.toString();
-    }
+    // ===== Getters and Setters =====
+    public int getBranchId() { return branchId; }
+    public void setBranchId(int branchId) { this.branchId = branchId; }
 
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public String getResponsibleUser() { return responsibleUser; }
+    public void setResponsibleUser(String responsibleUser) { this.responsibleUser = responsibleUser; }
 }
