@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBconnection {
 
-    private static final String URL = "jdbc:postgresql-yesh.alwaysdata.net:5432";
+    private static final String URL = "jdbc:postgresql://postgresql-yesh.alwaysdata.net:5432/yesh_julien_vms";
     private static final String USER = "yesh_vamos";
     private static final String PASS = "iTXzXa@hsXmYZ8x";
     private static Connection conn;
@@ -20,7 +20,7 @@ public class DBconnection {
 
         try {
             conn = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("Connected to MySQL database.");
+            System.out.println("Connected to PostgreSQL database.");
         } catch (SQLException e) {
             System.out.println("Database connection failed!");
             e.printStackTrace();
