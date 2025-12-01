@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Declare the FXMLLoader and load the FXML resource
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/pkg/vms/fxml/clients.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/pkg/vms/fxml/branch.fxml"));
 
         // Load the FXML and get the root node
         Parent root = loader.load();
