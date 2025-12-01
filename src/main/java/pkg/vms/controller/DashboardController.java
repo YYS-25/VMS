@@ -20,12 +20,12 @@ public class DashboardController {
     public void initialize() {
 
         // Load icons (replace these paths with your own)
-        iconRequests.setImage(new Image("/icons/requests.png"));
-        iconClients.setImage(new Image("/icons/clients.png"));
-        iconVouchers.setImage(new Image("/icons/vouchers.png"));
-        iconBranches.setImage(new Image("/icons/branches.png"));
-        iconUsers.setImage(new Image("/icons/users.png"));
-        iconReports.setImage(new Image("/icons/reports.png"));
+//        iconRequests.setImage(new Image("/icons/requests.png"));
+//        iconClients.setImage(new Image("/icons/clients.png"));
+//        iconVouchers.setImage(new Image("/icons/vouchers.png"));
+//        iconBranches.setImage(new Image("/icons/branches.png"));
+//        iconUsers.setImage(new Image("/icons/users.png"));
+//        iconReports.setImage(new Image("/icons/reports.png"));
 
         // Example logged-in user (later populate dynamically)
         usernameLabel.setText("Logged in as: Bobby");
