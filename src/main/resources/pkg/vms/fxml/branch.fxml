@@ -11,7 +11,7 @@
     <!-- TOP BAR -->
     <top>
         <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10;">
-            <Button text="Add new Company"
+            <Button text="Add new Company" onAction="#handleAddBranch"
                     style="-fx-background-color:#7c0d0d; -fx-text-fill: white; -fx-padding:8 18;"/>
         </HBox>
     </top>
@@ -40,7 +40,7 @@
                     <ComboBox fx:id="filterCompanyCombo" prefWidth="160"/>
                 </HBox>
 
-                <Button fx:id="addButton" text="+ Add New"
+                <Button fx:id="addButton" text="+ Add New" onAction="#handleAddBranch"
                         style="-fx-background-color:#7c0d0d; -fx-text-fill:white;"/>
             </HBox>
 

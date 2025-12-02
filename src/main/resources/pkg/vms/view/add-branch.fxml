@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15" alignment="CENTER"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pkg.vms.controller.AddBranchController"
+      style="-fx-padding: 20; -fx-background-color: #f3e9d7;">
+
+    <Label text="Add New Branch"
+           style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Branch Name:"/>
+        <TextField fx:id="branchNameField" prefWidth="200"/>
+    </HBox>
+
+    <Button text="Save" onAction="#handleSave"
+            fx:id="saveButton"
+            style="-fx-background-color:#7c0d0d; -fx-text-fill:white; -fx-padding:6 16;"/>
+
+</VBox>

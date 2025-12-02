@@ -11,12 +11,9 @@ public class DBconnection {
     private static final String PASS = "iTXzXa@hsXmYZ8x";
     private static Connection conn;
 
-    // Open a connection (only once)
+    // Open a fresh connection each time
     public static Connection getConnection() {
-
-        if (conn != null) {
-            return conn;
-        }
+        Connection conn = null;
         try {
             conn = DriverManager.getConnection(URL, USER, PASS);
             System.out.println("Connected to PostgreSQL database.");
