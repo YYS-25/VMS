@@ -3,7 +3,12 @@ package pkg.vms.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import pkg.vms.DBconnection.DBconnection;
 import pkg.vms.model.Branch;
 
@@ -52,22 +57,24 @@ public class BranchController {
 
     @FXML
     private void handleAddBranch() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Add Branch");
-        dialog.setHeaderText("Enter location:");
-        dialog.showAndWait().ifPresent(location -> {
-            try (Connection conn = DBconnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(
-                         "INSERT INTO branch(location, responsible_user) VALUES(?, ?)")) {
-                ps.setString(1, location);
-                ps.setString(2, "ResponsibleUser");
-                ps.executeUpdate();
-                loadBranches();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pkg/vms/view/add-branch.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Add Branch");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            // Refresh the table after closing window
+            loadBranches();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void handleEditBranch() {
