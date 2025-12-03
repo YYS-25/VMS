@@ -10,6 +10,7 @@ import pkg.vms.model.Users;
 import java.sql.*;
 
 public class UsersController {
+
     // TABLE & COLUMNS
     @FXML private TableView<Users> usersTable;
     @FXML private TableColumn<Users, String> usernameColumn;
@@ -18,6 +19,7 @@ public class UsersController {
     @FXML private TableColumn<Users, String> emailColumn;
     @FXML private TableColumn<Users, String> roleColumn;
     @FXML private TableColumn<Users, String> statusColumn;
+    @FXML private TableColumn<Users, String> titreColumn;
 
     // ADD/EDIT FORM
     @FXML private VBox addForm;
@@ -38,6 +40,7 @@ public class UsersController {
         emailColumn.setCellValueFactory(cell -> cell.getValue().emailProperty());
         roleColumn.setCellValueFactory(cell -> cell.getValue().roleProperty());
         statusColumn.setCellValueFactory(cell -> cell.getValue().statusProperty());
+        titreColumn.setCellValueFactory(cell -> cell.getValue().titreProperty());
         usersTable.setItems(userList);
         loadUsers();
 
