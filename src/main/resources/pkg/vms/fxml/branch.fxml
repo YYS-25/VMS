@@ -11,7 +11,7 @@
     <!-- TOP BAR -->
     <top>
         <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10;">
-            <Button text="Add new Company" onAction="#handleAddBranch"
+            <Button text="View Companies" onAction="#openCompanyPage"
                     style="-fx-background-color:#7c0d0d; -fx-text-fill: white; -fx-padding:8 18;"/>
         </HBox>
     </top>
@@ -47,7 +47,7 @@
             <Separator style="-fx-background-color:black;"/>
 
             <!-- TABLE -->
-            <TableView fx:id="branchTable" prefHeight="260">
+            <TableView fx:id="branchTable" prefHeight="240">
                 <columns>
                     <TableColumn fx:id="idColumn" text="ID" prefWidth="80"/>
                     <TableColumn fx:id="locationColumn" text="Branch Name" prefWidth="170"/>
@@ -59,7 +59,7 @@
             <!-- ACTION BUTTONS -->
             <HBox spacing="15" style="-fx-padding:10 0;">
                 <Button text="View Details" />
-                <Button fx:id="editButton" text="Edit" />
+                <Button fx:id="editButton" text="Edit" onAction="#handleEditBranch"/>
                 <Button fx:id="deleteButton" text="Delete" />
                 <Button text="Export Excel"/>
             </HBox>
