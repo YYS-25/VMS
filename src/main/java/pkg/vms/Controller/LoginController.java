@@ -6,54 +6,90 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import pkg.vms.DBconnection.DBconnection;
 
 public class LoginController {
-
     @FXML
     private TextField usernameField;
-
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private Button loginButton;
-
     @FXML
     private Button cancelButton;
 
-    // This method is called automatically after FXML is loaded
     @FXML
     private void initialize() {
-        // Set button actions
         loginButton.setOnAction(e -> handleLogin());
         cancelButton.setOnAction(e -> handleCancel());
     }
 
+    @FXML
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Example validation: username and password not empty
         if (username.isEmpty() || password.isEmpty()) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Login Failed");
             alert.setHeaderText(null);
             alert.setContentText("Username and Password cannot be empty!");
             alert.showAndWait();
-        } else {
-            // Here you could check credentials with your database/DAO
-            System.out.println("Login attempted: " + username + " / " + password);
+            return;
+        }
 
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Login Success");
+        try {
+            Connection conn = DBconnection.getConnection();
+
+            // First check if user exists
+            String checkUserQuery = "SELECT password FROM users WHERE username = ?";
+            PreparedStatement checkStmt = conn.prepareStatement(checkUserQuery);
+            checkStmt.setString(1, username);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                // User exists, check password
+                String storedPassword = rs.getString("password");
+                if (storedPassword.equals(password)) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Login Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Welcome, " + username + "!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Login Failed");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Incorrect password!");
+                    alert.showAndWait();
+                }
+            } else {
+                // User doesn't exist
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Login Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("No user with username '" + username + "' was found!");
+                alert.showAndWait();
+            }
+
+            rs.close();
+            checkStmt.close();
+
+        } catch (SQLException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Database Error");
             alert.setHeaderText(null);
-            alert.setContentText("Welcome, " + username + "!");
+            alert.setContentText("Database connection error: " + e.getMessage());
             alert.showAndWait();
+            e.printStackTrace();
         }
     }
 
     private void handleCancel() {
-        // Clear both fields
         usernameField.clear();
         passwordField.clear();
     }
