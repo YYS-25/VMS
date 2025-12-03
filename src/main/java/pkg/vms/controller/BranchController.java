@@ -21,6 +21,19 @@ public class BranchController {
     @FXML private TableColumn<Branch, String> locationColumn;
     @FXML private TableColumn<Branch, String> responsibleColumn;
 
+    @FXML private Label detailBranchId;
+    @FXML private Label detailBranchName;
+    @FXML private Label detailCompany;
+    @FXML private Label detailCity;
+    @FXML private Label detailAddress;
+    @FXML private Label detailContact;
+    @FXML private Label detailEmail;
+    @FXML private Label detailManager;
+    @FXML private Label detailIndustry;
+    @FXML private Label detailsTitle;
+
+
+
     @FXML private Button addButton, editButton, deleteButton;
 
     private ObservableList<Branch> branchList = FXCollections.observableArrayList();
@@ -33,6 +46,23 @@ public class BranchController {
 
         branchTable.setItems(branchList);
         loadBranches();
+
+        branchTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+            if (selected != null) {
+                detailsTitle.setText("Branch Details (Selected: " + selected.getBranchId() + ")");
+
+                detailBranchId.setText("Branch ID: " + selected.getBranchId());
+                detailBranchName.setText("Branch Name: " + selected.getLocation());
+                detailCompany.setText("Company ID (FK): " + selected.getRefCompany());
+                detailCity.setText("City: " + selected.getLocation());
+                detailAddress.setText("Address: " + selected.getAddress());
+                detailContact.setText("Contact: " + selected.getPhone());
+                detailEmail.setText("Email: -");
+                detailManager.setText("Manager: " + selected.getResponsibleUser());
+                detailIndustry.setText("Industry: -");
+            }
+        });
+
     }
 
     private void loadBranches() {
@@ -111,4 +141,19 @@ public class BranchController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void openCompanyPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pkg/vms/view/company.fxml"));
+            Parent root = loader.load();
+
+            // Show the new page (replace entire window content)
+            branchTable.getScene().setRoot(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
