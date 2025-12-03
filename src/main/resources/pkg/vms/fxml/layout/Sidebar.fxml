@@ -23,14 +23,13 @@
 
         <!-- Sidebar Items -->
         <VBox>
-            <Button fx:id="dashboardButton"   text="Dashboard"   styleClass="sidebar-button"/>
-            <Button fx:id="requestsButton"    text="Requests"    styleClass="sidebar-button"/>
-            <Button fx:id="clientsButton"     text="Clients"     styleClass="sidebar-button"/>
-            <Button fx:id="vouchersButton"    text="Vouchers"    styleClass="sidebar-button"/>
-            <Button fx:id="branchesButton"    text="Branches"    styleClass="sidebar-button"/>
-            <Button fx:id="usersButton"       text="Users"       styleClass="sidebar-button"/>
-            <Button fx:id="reportsButton"     text="Reports"     styleClass="sidebar-button"/>
-            <Button text="Reports"     styleClass="sidebar-button"/>
+            <Button fx:id="dashboardButton"  text="Dashboard" styleClass="sidebar-button" onAction="#onDashboard"/>
+            <Button fx:id="requestsButton"   text="Requests"  styleClass="sidebar-button" onAction="#onRequests"/>
+            <Button fx:id="clientsButton"    text="Clients"   styleClass="sidebar-button" onAction="#onClients"/>
+            <Button fx:id="vouchersButton"   text="Vouchers"  styleClass="sidebar-button" onAction="#onVouchers"/>
+            <Button fx:id="branchesButton"   text="Branches"  styleClass="sidebar-button" onAction="#onBranches"/>
+            <Button fx:id="usersButton"      text="Users"     styleClass="sidebar-button" onAction="#onUsers"/>
+            <Button fx:id="reportsButton"    text="Reports"   styleClass="sidebar-button" onAction="#onReports"/>
         </VBox>
 
         <!-- Push items up -->

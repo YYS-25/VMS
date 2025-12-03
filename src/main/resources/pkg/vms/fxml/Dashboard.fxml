@@ -10,38 +10,13 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pkg.vms.controller.DashboardController">
 
+    <BorderPane fx:id="rootPane"
+                prefWidth="1200" prefHeight="720">
 
-    <BorderPane prefWidth="1200" prefHeight="720"
-                maxWidth="1200" maxHeight="720"
-                minWidth="1200" minHeight="720">
 
-        <!-- ============= LEFT SIDEBAR ============= -->
+    <!-- ============= LEFT SIDEBAR ============= -->
         <left>
             <fx:include source="../fxml/layout/Sidebar.fxml"/>
-<!--            <VBox prefWidth="220" style="-fx-background-color: #650000;" spacing="20" alignment="TOP_CENTER">-->
-
-<!--                &lt;!&ndash; Top space &ndash;&gt;-->
-<!--                <Label text="" prefHeight="20"/>-->
-
-<!--                &lt;!&ndash; Menu Icon &ndash;&gt;-->
-<!--                <Button text="☰"-->
-<!--                        style="-fx-font-size: 20; -fx-background-color: transparent; -fx-text-fill: white;" />-->
-
-<!--                &lt;!&ndash; Sidebar Items &ndash;&gt;-->
-<!--                <VBox spacing="15" alignment="TOP_LEFT" style="-fx-padding: 20;">-->
-<!--                    <Button text="Dashboard"   styleClass="sidebar-button"/>-->
-<!--                    <Button text="Requests"    styleClass="sidebar-button"/>-->
-<!--                    <Button text="Clients"     styleClass="sidebar-button"/>-->
-<!--                    <Button text="Vouchers"    styleClass="sidebar-button"/>-->
-<!--                    <Button text="Branches"    styleClass="sidebar-button"/>-->
-<!--                    <Button text="Users"       styleClass="sidebar-button"/>-->
-<!--                    <Button text="Reports"     styleClass="sidebar-button"/>-->
-<!--                </VBox>-->
-
-<!--                &lt;!&ndash; Push items up &ndash;&gt;-->
-<!--                <Pane VBox.vgrow="ALWAYS"/>-->
-
-<!--            </VBox>-->
         </left>
 
         <!-- ============= TOP HEADER ============= -->
@@ -78,7 +53,10 @@
                 </VBox>
 
                 <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="1">
-                    <ImageView fx:id="iconClients" fitWidth="120" fitHeight="120"/>
+                    <ImageView fx:id="iconClients"
+                               fitWidth="120" fitHeight="120"
+                               onMouseClicked="#handleClientsClick"/>
+
                     <Label text="Clients"/>
                 </VBox>
 
