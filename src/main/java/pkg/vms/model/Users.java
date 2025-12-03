@@ -1,6 +1,7 @@
 package pkg.vms.model;
 
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 
 public class Users {
     private final StringProperty username;
@@ -38,6 +39,7 @@ public class Users {
     public StringProperty emailProperty() { return email; }
     public StringProperty roleProperty() { return role; }
     public StringProperty statusProperty() { return status; }
+    public StringProperty titreProperty() { return titre; }
 
     // ===== Getters and Setters =====
     public String getUsername() { return username.get(); }
@@ -66,4 +68,5 @@ public class Users {
 
     public String getStatus() { return status.get(); }
     public void setStatus(String status) { this.status.set(status); }
+
 }
