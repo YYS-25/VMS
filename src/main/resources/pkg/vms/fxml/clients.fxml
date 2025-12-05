@@ -34,16 +34,7 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- 1. Top Search Bar -->
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="🔍 Search Clients:"/>
-                <TextField fx:id="searchField" prefWidth="250"/>
-                <Button text="Search" onAction="#handleSearch"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button text="+ Add New" onAction="#handleAdd"/>
-            </HBox>
 
-            <Separator/>
 
             <!-- 2. TableView -->
             <TableView fx:id="clientsTable" prefHeight="250">
