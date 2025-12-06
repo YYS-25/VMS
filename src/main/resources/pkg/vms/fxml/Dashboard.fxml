@@ -67,12 +67,14 @@
 
                 <!-- Row 2 -->
                 <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
-                    <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"/>
+                    <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"
+                                onMouseClicked="#handleBranchClick"/>
                     <Label text="Branches"/>
                 </VBox>
 
                 <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
-                    <ImageView fx:id="iconUsers" fitWidth="120" fitHeight="120"/>
+                    <ImageView fx:id="iconUsers" fitWidth="120" fitHeight="120"
+                                onMouseClicked="#handleUsersClick"/>
                     <Label text="Users"/>
                 </VBox>
 
