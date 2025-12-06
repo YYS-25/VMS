@@ -70,32 +70,35 @@
             <VBox spacing="10">
                 <Label text="Branch Details (Selected: None)"
                        fx:id="detailsTitle"
-                       style="-fx-font-size:14px; -fx-padding:5 0;"/>
+                       style="-fx-font-size:14px; -fx-padding:5 0; -fx-background-color: #8B0000"/>
 
-                <VBox style="-fx-background-color:#7c0d0d; -fx-padding:20; -fx-background-radius:4;"
-                      spacing="8">
+                <!-- Using HBox to split details into two columns -->
+                <HBox spacing="20" style="-fx-padding:10 0; -fx-background-color: #8B0000">
 
-                    <Label fx:id="detailBranchId" text="Branch ID: -" style="-fx-text-fill:white;"/>
-                    <Label fx:id="detailBranchName" text="Branch Name: -" style="-fx-text-fill:white;"/>
-                    <Label fx:id="detailCompany" text="Company: -" style="-fx-text-fill:white;"/>
-                    <Label fx:id="detailCity" text="City: -" style="-fx-text-fill:white;"/>
-                    <Label fx:id="detailAddress" text="Address: -" style="-fx-text-fill:white;"/>
-                    <HBox spacing="20">
+                    <!-- Left column -->
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label fx:id="detailBranchId" text="Branch ID: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailBranchName" text="Branch Name: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailCity" text="City: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailManager" text="Manager: -" style="-fx-text-fill:white;"/>
+                    </VBox>
+
+                    <!-- Right column -->
+                    <VBox spacing="8" HBox.hgrow="ALWAYS">
+                        <Label fx:id="detailCompany" text="Company: -" style="-fx-text-fill:white;"/>
+                        <Label fx:id="detailAddress" text="Address: -" style="-fx-text-fill:white;"/>
                         <Label fx:id="detailContact" text="Contact: -" style="-fx-text-fill:white;"/>
                         <Label fx:id="detailEmail" text="Email: -" style="-fx-text-fill:white;"/>
-                    </HBox>
-                    <HBox spacing="20">
-                        <Label fx:id="detailManager" text="Manager: -" style="-fx-text-fill:white;"/>
                         <Label fx:id="detailIndustry" text="Industry: -" style="-fx-text-fill:white;"/>
-                    </HBox>
-
-                </VBox>
+                    </VBox>
+                </HBox>
 
                 <HBox spacing="15" style="-fx-padding:10 0;">
                     <Button text="Update Branch Info"/>
                     <Button text="View Redemptions Made"/>
                 </HBox>
             </VBox>
+
 
         </VBox>
     </center>

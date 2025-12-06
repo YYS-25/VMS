@@ -156,4 +156,60 @@ public class BranchController {
         }
     }
 
+    // Handles search functionality
+    @FXML
+    private void handleSearch() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Search Branch");
+        dialog.setHeaderText("Enter branch location to search:");
+        dialog.showAndWait().ifPresent(location -> {
+            branchList.clear();
+            try (Connection conn = DBconnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement("SELECT * FROM branch WHERE location LIKE ?")) {
+                ps.setString(1, "%" + location + "%");
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Branch branch = new Branch(
+                            rs.getInt("branch_id"),
+                            rs.getString("location"),
+                            rs.getString("responsible_user")
+                    );
+                    branchList.add(branch);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+//    Handles filter functionality
+    @FXML
+    private void handleFilter() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("All", "All", "Location A", "Location B");
+        dialog.setTitle("Filter Branches");
+        dialog.setHeaderText("Select location to filter:");
+        dialog.showAndWait().ifPresent(location -> {
+            branchList.clear();
+            try (Connection conn = DBconnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(
+                         location.equals("All") ?
+                                 "SELECT * FROM branch" :
+                                 "SELECT * FROM branch WHERE location = ?")) {
+                if (!location.equals("All")) {
+                    ps.setString(1, location);
+                }
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Branch branch = new Branch(
+                            rs.getInt("branch_id"),
+                            rs.getString("location"),
+                            rs.getString("responsible_user")
+                    );
+                    branchList.add(branch);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
