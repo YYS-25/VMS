@@ -11,19 +11,18 @@ public class DBconnection {
     private static final String PASS = "iTXzXa@hsXmYZ8x";
     private static Connection conn;
 
-    // Open a connection (only once)
+    // Open a connection
     public static Connection getConnection() {
-
-        if (conn != null) {
-            return conn;
-        }
         try {
-            conn = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println("Connected to PostgreSQL database.");
+            if (conn == null || conn.isClosed()) {
+                conn = DriverManager.getConnection(URL, USER, PASS);
+                System.out.println("Connected to PostgreSQL database.");
+            }
         } catch (SQLException e) {
             System.out.println("Database connection failed!");
             e.printStackTrace();
         }
         return conn;
     }
+
 }
