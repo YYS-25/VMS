@@ -6,7 +6,7 @@
    SIDEBAR
    ---------------------------- */
 .sidebar {
-    -fx-background-color: -fx-dark-red;
+    -fx-background-color: #8B0000;  /* Dark Red */
     -fx-padding: 18 12;
     -fx-spacing: 16;
 }
@@ -36,17 +36,17 @@
 }
 
 .sidebar-button:hover {
-    -fx-background-color: derive(-fx-dark-red, 15%);
+    -fx-background-color: derive(#8B0000, 15%);  /* Derived Dark Red */
 }
 
 .sidebar-button:focused {
-    -fx-border-color: derive(-fx-dark-red, -10%);
+    -fx-border-color: derive(#8B0000, -10%);  /* Derived Dark Red */
     -fx-border-width: 0 0 0 4;
 }
 
 /* selected/active state — can be applied via controller */
 .sidebar-button-active {
-    -fx-background-color: derive(-fx-dark-red, 28%);
+    -fx-background-color: derive(#8B0000, 28%);  /* Derived Dark Red */
     -fx-font-weight: bold;
 }
 
@@ -54,9 +54,9 @@
    TOP HEADER BAR
    ---------------------------- */
 .top-header {
-    -fx-background-color: -fx-cream;
+    -fx-background-color: #F5F5DC;  /* Cream */
     -fx-padding: 10 16;
-    -fx-border-color: -fx-dark-blue;
+    -fx-border-color: #003366;  /* Dark Blue */
     -fx-border-width: 0 0 2 0;
     -fx-alignment: CENTER_LEFT;
 }
@@ -64,14 +64,13 @@
 .header-title {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: -fx-dark-blue;
+    -fx-text-fill: #003366;  /* Dark Blue */
 }
 
 .header-userinfo {
     -fx-font-size: 14px;
-    -fx-text-fill: -fx-dark-blue;
+    -fx-text-fill: #003366;  /* Dark Blue */
 }
-
 
 /* ----------------------------
    MAIN ICON GRID
@@ -90,7 +89,7 @@
 
 .dashboard-icon-box .label {
     -fx-font-size: 14px;
-    -fx-text-fill: -fx-dark-blue;
+    -fx-text-fill: #003366;  /* Dark Blue */
     -fx-font-weight: bold;
 }
 
@@ -100,7 +99,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 3);
     -fx-background-color: rgba(0,0,0,0.03);
 }
-
 
 /* OPTIONAL: card-style box if you want white background panels */
 .dashboard-card {
@@ -122,6 +120,6 @@
 /* ensure labels inside dashboard follow global typography */
 .dashboard-label {
     -fx-font-size: 13px;
-    -fx-text-fill: -fx-dark-blue;
+    -fx-text-fill: #003366;  /* Dark Blue */
     -fx-font-weight: bold;
 }
