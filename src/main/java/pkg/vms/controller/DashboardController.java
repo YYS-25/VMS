@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import pkg.vms.controller.layout.SidebarController;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class DashboardController {
 
@@ -62,17 +63,25 @@ public class DashboardController {
     // CLICK ON BRANCH ICON IN DASHBOARD
     @FXML
     private void handleBranchClick() {
-        navigateTo("branches");
+        navigateTo("branch");
     }
 
     /**
      * Central navigation for dashboard (sidebar + dashboard icons)
      */
     private void navigateTo(String target) {
+        if (rootPane == null) {
+            System.out.println("navigateTo called but rootPane is null");
+            return;
+        }
+
+        String t = target == null ? "" : target.toLowerCase(Locale.ROOT).trim();
+        System.out.println("Navigating to: " + target + " (normalized: " + t + ")");
+
         try {
             Parent view = null;
 
-            switch (target) {
+            switch (t) {
 
                 case "users":
                     view = FXMLLoader.load(
@@ -86,10 +95,21 @@ public class DashboardController {
                     );
                     break;
 
+                case "branch":
+                case "branches": // accept both names from sidebar
+                    view = FXMLLoader.load(
+                            getClass().getResource("/pkg/vms/fxml/Branch.fxml")
+                    );
+                    break;
+
                 case "dashboard":
                     view = FXMLLoader.load(
                             getClass().getResource("/pkg/vms/fxml/Dashboard.fxml")
                     );
+                    break;
+
+                default:
+                    System.out.println("Unknown navigation target: " + target);
                     break;
             }
 

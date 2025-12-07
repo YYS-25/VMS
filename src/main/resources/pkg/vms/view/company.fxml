@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pkg.vms.controller.CompanyController"
+            style="-fx-background-color: #f3e9d7;">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+            <Button text="+ Add Company"
+                    onAction="#openAddCompany"
+                    style="-fx-background-color:#7c0d0d; -fx-text-fill:white; -fx-padding:8 18;"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20;">
+
+            <Label text="[Dashboard] > [Companies]"
+                   style="-fx-font-size:13px;"/>
+
+            <Separator/>
+
+            <!-- TABLE -->
+            <TableView fx:id="companyTable" prefHeight="260">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="80"/>
+                    <TableColumn fx:id="nameColumn" text="Company Name" prefWidth="180"/>
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="industryColumn" text="Industry" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <Button text="Edit" fx:id="editButton" onAction="#openEditCompany"/>
+                <Button text="Delete" fx:id="deleteButton" onAction="#deleteCompany"/>
+            </HBox>
+
+            <Separator/>
+
+            <!-- DETAILS -->
+            <VBox spacing="10">
+                <Label text="Company Details (Selected: None)"
+                       fx:id="detailsTitle"
+                       style="-fx-font-size:14px;"/>
+
+                <VBox spacing="8"
+                      style="-fx-background-color:#7c0d0d; -fx-padding:20; -fx-background-radius:5;">
+
+                    <Label fx:id="detailId" text="ID: -"  style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailName" text="Name: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailEmail" text="Email: -" style="-fx-text-fill:white;"/>
+                    <Label fx:id="detailIndustry" text="Industry: -" style="-fx-text-fill:white;"/>
+
+                </VBox>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
