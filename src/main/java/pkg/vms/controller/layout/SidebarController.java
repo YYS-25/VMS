@@ -15,7 +15,6 @@ public class SidebarController implements Initializable {
     @FXML
     private VBox root;
 
-    @FXML private Button dashboardButton;
     @FXML private Button requestsButton;
     @FXML private Button clientsButton;
     @FXML private Button vouchersButton;
@@ -31,16 +30,10 @@ public class SidebarController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Default highlight
-        setActive("dashboard");
+        // No default highlight since Dashboard is now just a label
     }
 
     // Sidebar button handlers =========================
-
-    @FXML
-    private void onDashboard(ActionEvent e) {
-        navigate("dashboard");
-    }
 
     @FXML
     private void onRequests(ActionEvent e) {
@@ -85,6 +78,12 @@ public class SidebarController implements Initializable {
      * Called internally when a sidebar button is pressed.
      */
     private void navigate(String target) {
+        // Check if the button is disabled before navigating
+        Button targetButton = getButtonForTarget(target);
+        if (targetButton != null && targetButton.isDisable()) {
+            return; // Don't navigate if button is disabled
+        }
+
         if (navigationHandler != null) {
             navigationHandler.accept(target);   // send event to DashboardController
         } else {
@@ -94,12 +93,27 @@ public class SidebarController implements Initializable {
     }
 
     /**
+     * Gets the button for a given target name
+     */
+    private Button getButtonForTarget(String target) {
+        switch (target) {
+            case "dashboard": return null; // Dashboard is now a label, not a button
+            case "requests": return requestsButton;
+            case "clients": return clientsButton;
+            case "vouchers": return vouchersButton;
+            case "branches": return branchesButton;
+            case "users": return usersButton;
+            case "reports": return reportsButton;
+            default: return null;
+        }
+    }
+
+    /**
      * Highlights whichever button is active.
      */
     public void setActive(String name) {
 
         // remove from all
-        dashboardButton.getStyleClass().remove("active");
         requestsButton.getStyleClass().remove("active");
         clientsButton.getStyleClass().remove("active");
         vouchersButton.getStyleClass().remove("active");
@@ -107,9 +121,9 @@ public class SidebarController implements Initializable {
         usersButton.getStyleClass().remove("active");
         reportsButton.getStyleClass().remove("active");
 
-        // add to one
+        // add to one (dashboard is now a label, so skip it)
         switch (name) {
-            case "dashboard": dashboardButton.getStyleClass().add("active"); break;
+            case "dashboard": break; // Dashboard is a label, not a button
             case "requests":  requestsButton.getStyleClass().add("active"); break;
             case "clients":   clientsButton.getStyleClass().add("active"); break;
             case "vouchers":  vouchersButton.getStyleClass().add("active"); break;
@@ -121,5 +135,78 @@ public class SidebarController implements Initializable {
 
     public VBox getRoot() {
         return root;
+    }
+
+    /**
+     * Configures access control for sidebar buttons based on user role
+     * Superuser - access all buttons (all enabled)
+     * Admin & Accountant - only Requests and Clients enabled (others disabled/greyed)
+     * Approver - only Vouchers and Reports enabled (others disabled/greyed)
+     */
+    public void configureRoleBasedAccess(String role) {
+        if (role == null) {
+            return;
+        }
+
+        String roleLower = role.toLowerCase().trim();
+
+        if (roleLower.equals("superuser")) {
+            // Superuser - enable all
+            setButtonEnabled(requestsButton, true);
+            setButtonEnabled(clientsButton, true);
+            setButtonEnabled(vouchersButton, true);
+            setButtonEnabled(branchesButton, true);
+            setButtonEnabled(usersButton, true);
+            setButtonEnabled(reportsButton, true);
+        } else if (roleLower.equals("admin") || roleLower.equals("accountant")) {
+            // Admin & Accountant - only Requests and Clients enabled
+            setButtonEnabled(requestsButton, true);
+            setButtonEnabled(clientsButton, true);
+            setButtonEnabled(vouchersButton, false);
+            setButtonEnabled(branchesButton, false);
+            setButtonEnabled(usersButton, false);
+            setButtonEnabled(reportsButton, false);
+        } else if (roleLower.equals("approver")) {
+            // Approver - only Vouchers and Reports enabled
+            setButtonEnabled(requestsButton, false);
+            setButtonEnabled(clientsButton, false);
+            setButtonEnabled(vouchersButton, true);
+            setButtonEnabled(branchesButton, false);
+            setButtonEnabled(usersButton, false);
+            setButtonEnabled(reportsButton, true);
+        } else {
+            // Unknown role - disable all
+            setButtonEnabled(requestsButton, false);
+            setButtonEnabled(clientsButton, false);
+            setButtonEnabled(vouchersButton, false);
+            setButtonEnabled(branchesButton, false);
+            setButtonEnabled(usersButton, false);
+            setButtonEnabled(reportsButton, false);
+        }
+    }
+
+    /**
+     * Enables or disables a sidebar button with appropriate styling
+     */
+    private void setButtonEnabled(Button button, boolean enabled) {
+        button.setVisible(true);
+        button.setManaged(true);
+        button.setDisable(!enabled);
+
+        if (enabled) {
+            button.getStyleClass().remove("disabled-sidebar-button");
+            // Remove lock icon from text if present
+            String text = button.getText();
+            if (text.contains("🔒")) {
+                button.setText(text.replace(" 🔒", ""));
+            }
+        } else {
+            button.getStyleClass().add("disabled-sidebar-button");
+            // Add lock icon to text if not present
+            String text = button.getText();
+            if (!text.contains("🔒")) {
+                button.setText(text + " 🔒");
+            }
+        }
     }
 }

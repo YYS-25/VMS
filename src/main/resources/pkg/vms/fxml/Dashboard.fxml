@@ -13,12 +13,6 @@
     <BorderPane fx:id="rootPane"
                 prefWidth="1200" prefHeight="720">
 
-
-        <!-- ============= LEFT SIDEBAR ============= -->
-        <left>
-            <fx:include source="../fxml/layout/Sidebar.fxml"/>
-        </left>
-
         <!-- ============= TOP HEADER ============= -->
         <top>
             <HBox prefHeight="70" spacing="20" prefWidth="Infinity"
@@ -34,6 +28,15 @@
 
                 <Label fx:id="roleLabel" text="Role: Superuser"
                        style="-fx-font-size: 16;"/>
+
+                <Button fx:id="logoutButton"
+                        text="Logout"
+                        styleClass="logout-button"
+                        onAction="#handleLogout">
+                    <tooltip>
+                        <Tooltip text="Logout"/>
+                    </tooltip>
+                </Button>
             </HBox>
         </top>
 
@@ -47,12 +50,13 @@
                 </columnConstraints>
 
                 <!-- Row 1 -->
-                <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                    <ImageView fx:id="iconRequests" fitWidth="120" fitHeight="120"/>
+                <VBox fx:id="vboxRequests" alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <ImageView fx:id="iconRequests" fitWidth="120" fitHeight="120"
+                               onMouseClicked="#handleRequestsClick"/>
                     <Label text="Voucher Requests"/>
                 </VBox>
 
-                <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <VBox fx:id="vboxClients" alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="1">
                     <ImageView fx:id="iconClients"
                                fitWidth="120" fitHeight="120"
                                onMouseClicked="#handleClientsClick"/>
@@ -60,26 +64,28 @@
                     <Label text="Clients"/>
                 </VBox>
 
-                <VBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="2">
-                    <ImageView fx:id="iconVouchers" fitWidth="120" fitHeight="120"/>
+                <VBox fx:id="vboxVouchers" alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                    <ImageView fx:id="iconVouchers" fitWidth="120" fitHeight="120"
+                               onMouseClicked="#handleVouchersClick"/>
                     <Label text="Vouchers"/>
                 </VBox>
 
                 <!-- Row 2 -->
-                <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <VBox fx:id="vboxBranches" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
                     <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"
-                               onMouseClicked="#handleBranchClick"/>
+                               onMouseClicked="#handleBranchesClick"/>
                     <Label text="Branches"/>
                 </VBox>
 
-                <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <VBox fx:id="vboxUsers" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
                     <ImageView fx:id="iconUsers" fitWidth="120" fitHeight="120"
                                onMouseClicked="#handleUsersClick"/>
                     <Label text="Users"/>
                 </VBox>
 
-                <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="2">
-                    <ImageView fx:id="iconReports" fitWidth="120" fitHeight="120"/>
+                <VBox fx:id="vboxReports" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                    <ImageView fx:id="iconReports" fitWidth="120" fitHeight="120"
+                               onMouseClicked="#handleReportsClick"/>
                     <Label text="Reports"/>
                 </VBox>
 
