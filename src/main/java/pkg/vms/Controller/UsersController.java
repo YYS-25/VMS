@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import pkg.vms.DBconnection.DBconnection;
 import pkg.vms.model.Users;
@@ -24,9 +26,15 @@ public class UsersController {
     // ADD/EDIT FORM
     @FXML private VBox addForm;
     @FXML private Label formTitle;
-    @FXML private TextField addUsername, addFirstName, addLastName, addEmail, addRole, addStatus, addPassword, addDdl, addTitre;
+    @FXML private TextField addUsername, addFirstName, addLastName, addEmail, addDdl, addTitre;
+    @FXML private PasswordField addPassword;
+    @FXML private ComboBox<String> addRoleCombo;
+    @FXML private ComboBox<String> addStatusCombo;
     @FXML private Label formError;
     @FXML private TextField searchHeaderField;
+    @FXML private Button deleteButton;
+    @FXML private Button closeFormButton;
+    @FXML private Button addUserButton;
 
     private ObservableList<Users> userList = FXCollections.observableArrayList();
     private Users editingUser = null;
@@ -44,9 +52,60 @@ public class UsersController {
         usersTable.setItems(userList);
         loadUsers();
 
+        // SETUP COMBO BOXES
+        if (addRoleCombo != null) {
+            addRoleCombo.getItems().addAll("Superuser", "Admin", "Accountant", "Approver");
+        }
+        if (addStatusCombo != null) {
+            addStatusCombo.getItems().addAll("Active", "Inactive", "Suspended");
+        }
+
         // HIDE FORM INITIALLY
         addForm.setVisible(false);
         addForm.setManaged(false);
+
+        // Configure delete button visibility based on role
+        configureDeleteButtonAccess();
+
+        // Configure add user button - only superuser can create accounts
+        configureAddUserButtonAccess();
+
+        // Add Enter key support for search field
+        if (searchHeaderField != null) {
+            searchHeaderField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    handleSearch();
+                }
+            });
+        }
+    }
+
+    private void configureAddUserButtonAccess() {
+        // Only superuser can create new accounts
+        if (addUserButton != null) {
+            String currentRole = UserSession.getInstance().getRole();
+            if (currentRole != null && currentRole.toLowerCase().trim().equals("superuser")) {
+                addUserButton.setVisible(true);
+                addUserButton.setManaged(true);
+            } else {
+                addUserButton.setVisible(false);
+                addUserButton.setManaged(false);
+            }
+        }
+    }
+
+    private void configureDeleteButtonAccess() {
+        // Only superuser can delete users
+        if (deleteButton != null) {
+            String currentRole = UserSession.getInstance().getRole();
+            if (currentRole != null && currentRole.toLowerCase().trim().equals("superuser")) {
+                deleteButton.setVisible(true);
+                deleteButton.setManaged(true);
+            } else {
+                deleteButton.setVisible(false);
+                deleteButton.setManaged(false);
+            }
+        }
     }
 
     private void loadUsers() {
@@ -99,6 +158,13 @@ public class UsersController {
     /** SHOW ADD FORM **/
     @FXML
     private void handleAddUser() {
+        // Check if current user is superuser
+        String currentRole = UserSession.getInstance().getRole();
+        if (currentRole == null || !currentRole.toLowerCase().trim().equals("superuser")) {
+            showError("Only Superuser can create new user accounts.");
+            return;
+        }
+
         editingUser = null;
         formTitle.setText("Add New User");
         clearFormFields();
@@ -121,9 +187,20 @@ public class UsersController {
         addFirstName.setText(selected.getFirstName());
         addLastName.setText(selected.getLastName());
         addEmail.setText(selected.getEmail());
-        addRole.setText(selected.getRole());
-        addStatus.setText(selected.getStatus());
-        addPassword.setText(selected.getPassword());
+
+        // Set combo box values
+        if (addRoleCombo != null) {
+            addRoleCombo.setValue(selected.getRole());
+        }
+        if (addStatusCombo != null) {
+            addStatusCombo.setValue(selected.getStatus());
+        }
+
+        // Password field - don't show existing password for security
+        if (addPassword != null) {
+            addPassword.clear();
+        }
+
         addDdl.setText(selected.getDdl());
         addTitre.setText(selected.getTitre());
         formError.setText("");
@@ -139,32 +216,110 @@ public class UsersController {
             showError("Please select a user to delete.");
             return;
         }
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE username=?")) {
-            ps.setString(1, selected.getUsername());
-            ps.executeUpdate();
-            loadUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showError("Error deleting user: " + e.getMessage());
+
+        // Check if current user is superuser
+        String currentRole = UserSession.getInstance().getRole();
+        if (currentRole == null || !currentRole.toLowerCase().trim().equals("superuser")) {
+            showError("Only Superuser can delete users.");
+            return;
+        }
+
+        // Check if the user to be deleted has a role that can be deleted (accountant, admin, approver)
+        String userRole = selected.getRole();
+        if (userRole == null) {
+            showError("Cannot delete user: role is not defined.");
+            return;
+        }
+
+        String userRoleLower = userRole.toLowerCase().trim();
+        if (!userRoleLower.equals("accountant") &&
+                !userRoleLower.equals("admin") &&
+                !userRoleLower.equals("approver")) {
+            showError("Only users with roles: Accountant, Admin, or Approver can be deleted.");
+            return;
+        }
+
+        // Confirm deletion
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Deletion");
+        confirmAlert.setHeaderText("Delete User");
+        confirmAlert.setContentText("Are you sure you want to delete user '" + selected.getUsername() + "' with role '" + selected.getRole() + "'?");
+
+        if (confirmAlert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            try (Connection conn = DBconnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement("DELETE FROM users WHERE username=?")) {
+                ps.setString(1, selected.getUsername());
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Success");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("User deleted successfully.");
+                    successAlert.showAndWait();
+                    loadUsers();
+                } else {
+                    showError("Failed to delete user.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showError("Error deleting user: " + e.getMessage());
+            }
         }
     }
 
     /** SAVE FORM **/
     @FXML
     private void handleFormSave() {
+        // Check if current user is superuser (for creating new accounts)
+        if (editingUser == null) {
+            String currentRole = UserSession.getInstance().getRole();
+            if (currentRole == null || !currentRole.toLowerCase().trim().equals("superuser")) {
+                formError.setText("Only Superuser can create new user accounts.");
+                return;
+            }
+        }
+
         String username = addUsername.getText().trim();
         String firstName = addFirstName.getText().trim();
         String lastName = addLastName.getText().trim();
         String email = addEmail.getText().trim();
-        String role = addRole.getText().trim();
-        String status = addStatus.getText().trim();
-        String password = addPassword.getText().trim();
+        String role = addRoleCombo != null && addRoleCombo.getValue() != null ?
+                addRoleCombo.getValue() : "";
+        String status = addStatusCombo != null && addStatusCombo.getValue() != null ?
+                addStatusCombo.getValue() : "";
+        String password = addPassword != null ? addPassword.getText().trim() : "";
         String ddl = addDdl.getText().trim();
         String titre = addTitre.getText().trim();
 
         if (username.isEmpty()) {
             formError.setText("Username cannot be empty.");
+            return;
+        }
+
+        // Validate email format - must contain @ symbol
+        if (email.isEmpty()) {
+            formError.setText("Email cannot be empty.");
+            return;
+        }
+
+        if (!email.contains("@")) {
+            formError.setText("Email must contain '@' symbol. Please enter a valid email address.");
+            return;
+        }
+
+        if (role.isEmpty()) {
+            formError.setText("Please select a role.");
+            return;
+        }
+
+        if (status.isEmpty()) {
+            formError.setText("Please select a status.");
+            return;
+        }
+
+        // For new users, password is required
+        if (editingUser == null && password.isEmpty()) {
+            formError.setText("Password is required for new users.");
             return;
         }
 
@@ -183,21 +338,51 @@ public class UsersController {
                 ps.setString(8, titre);
                 ps.setString(9, status);
                 ps.executeUpdate();
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Success");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("User created successfully.");
+                successAlert.showAndWait();
             } else {
                 // UPDATE EXISTING USER
-                PreparedStatement ps = conn.prepareStatement(
-                        "UPDATE users SET username=?, first_name_user=?, last_name_user=?, email_user=?, role=?, password=?, ddl=?, titre=?, status=? WHERE username=?");
-                ps.setString(1, username);
-                ps.setString(2, firstName);
-                ps.setString(3, lastName);
-                ps.setString(4, email);
-                ps.setString(5, role);
-                ps.setString(6, password);
-                ps.setString(7, ddl);
-                ps.setString(8, titre);
-                ps.setString(9, status);
-                ps.setString(10, editingUser.getUsername());
-                ps.executeUpdate();
+                // Only update password if it's not empty
+                if (password.isEmpty()) {
+                    // Don't update password
+                    PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE users SET username=?, first_name_user=?, last_name_user=?, email_user=?, role=?, ddl=?, titre=?, status=? WHERE username=?");
+                    ps.setString(1, username);
+                    ps.setString(2, firstName);
+                    ps.setString(3, lastName);
+                    ps.setString(4, email);
+                    ps.setString(5, role);
+                    ps.setString(6, ddl);
+                    ps.setString(7, titre);
+                    ps.setString(8, status);
+                    ps.setString(9, editingUser.getUsername());
+                    ps.executeUpdate();
+                } else {
+                    // Update password too
+                    PreparedStatement ps = conn.prepareStatement(
+                            "UPDATE users SET username=?, first_name_user=?, last_name_user=?, email_user=?, role=?, password=?, ddl=?, titre=?, status=? WHERE username=?");
+                    ps.setString(1, username);
+                    ps.setString(2, firstName);
+                    ps.setString(3, lastName);
+                    ps.setString(4, email);
+                    ps.setString(5, role);
+                    ps.setString(6, password);
+                    ps.setString(7, ddl);
+                    ps.setString(8, titre);
+                    ps.setString(9, status);
+                    ps.setString(10, editingUser.getUsername());
+                    ps.executeUpdate();
+                }
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Success");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("User updated successfully.");
+                successAlert.showAndWait();
             }
             loadUsers();
             handleAddCancel();
@@ -219,9 +404,15 @@ public class UsersController {
         addFirstName.setText("");
         addLastName.setText("");
         addEmail.setText("");
-        addRole.setText("");
-        addStatus.setText("");
-        addPassword.setText("");
+        if (addRoleCombo != null) {
+            addRoleCombo.setValue(null);
+        }
+        if (addStatusCombo != null) {
+            addStatusCombo.setValue(null);
+        }
+        if (addPassword != null) {
+            addPassword.clear();
+        }
         addDdl.setText("");
         addTitre.setText("");
     }

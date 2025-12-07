@@ -125,3 +125,49 @@
     -fx-text-fill: -fx-dark-blue;
     -fx-font-weight: bold;
 }
+
+/* ----------------------------
+   DISABLED BUTTONS STYLING
+   ---------------------------- */
+.disabled-button {
+    -fx-opacity: 0.4;
+    -fx-cursor: default;
+}
+
+.disabled-button .label {
+    -fx-text-fill: #999999;
+}
+
+.disabled-sidebar-button {
+    -fx-opacity: 0.5;
+    -fx-text-fill: #cccccc !important;
+    -fx-cursor: default;
+}
+
+.disabled-sidebar-button:hover {
+    -fx-background-color: transparent !important;
+}
+
+/* ----------------------------
+   LOGOUT BUTTON STYLING
+   ---------------------------- */
+.logout-button {
+    -fx-font-size: 18px;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5 10;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Material Icons";
+}
+
+.logout-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+    -fx-background-radius: 5;
+    -fx-text-fill: #d32f2f;
+}
+
+.logout-button:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.15);
+}
+

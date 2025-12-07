@@ -69,9 +69,13 @@ public class LoginController {
                         );
                         Parent root = loader.load();
 
+                        // Store user session
+                        String userRole = rs.getString("role");
+                        UserSession.getInstance().setUser(username, userRole);
+
                         // Pass username & role to Dashboard
                         DashboardController controller = loader.getController();
-                        controller.setUserInfo(username, rs.getString("role"));
+                        controller.setUserInfo(username, userRole);
 
                         Stage stage = (Stage) loginButton.getScene().getWindow();
                         stage.setScene(new Scene(root));

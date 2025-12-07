@@ -17,14 +17,12 @@
         <!-- Top space -->
         <Label text="" prefHeight="20"/>
 
-        <!-- Menu Icon -->
-                <Button text="☰"
-                accessibleText="Menu"
-                style="-fx-font-size: 20; -fx-background-color: transparent; -fx-text-fill: white;" />
+        <!-- Dashboard Title -->
+        <Label text="Dashboard"
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 10 0;" />
 
         <!-- Sidebar Items -->
         <VBox>
-            <Button fx:id="dashboardButton"  text="Dashboard" styleClass="sidebar-button" onAction="#onDashboard"/>
             <Button fx:id="requestsButton"   text="Requests"  styleClass="sidebar-button" onAction="#onRequests"/>
             <Button fx:id="clientsButton"    text="Clients"   styleClass="sidebar-button" onAction="#onClients"/>
             <Button fx:id="vouchersButton"   text="Vouchers"  styleClass="sidebar-button" onAction="#onVouchers"/>

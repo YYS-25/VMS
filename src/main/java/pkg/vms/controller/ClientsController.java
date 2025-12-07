@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import pkg.vms.DAO.ClientsDAO;
 import pkg.vms.model.Clients;
@@ -19,7 +20,7 @@ public class ClientsController {
     @FXML private TableColumn<Clients, String> colAddress;
     @FXML private TableColumn<Clients, String> colPhone;
 
-    @FXML private TextField searchField;
+    @FXML private TextField searchHeaderField;
 
     // Add Client Form
     @FXML private VBox addForm;
@@ -56,6 +57,15 @@ public class ClientsController {
         colPhone.setCellValueFactory(cell -> cell.getValue().phone_clientProperty());
 
         loadClients();
+
+        // Add Enter key support for search field
+        if (searchHeaderField != null) {
+            searchHeaderField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    handleSearch();
+                }
+            });
+        }
     }
 
     private void loadClients() {
@@ -70,21 +80,25 @@ public class ClientsController {
 
     @FXML
     private void handleSearch() {
-        String s = searchField.getText().toLowerCase();
-
-        if (s.isEmpty()) {
+        String searchText = searchHeaderField.getText().toLowerCase();
+        if (searchText.isEmpty()) {
             clientsTable.setItems(data);
             return;
         }
-
-        ObservableList<Clients> filtered = data.filtered(
-                c -> c.getNom_client().toLowerCase().contains(s)
-        );
-
-        clientsTable.setItems(filtered);
+        ObservableList<Clients> filteredList = FXCollections.observableArrayList();
+        for (Clients client : data) {
+            if (String.valueOf(client.getRef_client()).contains(searchText)
+                    || client.getNom_client().toLowerCase().contains(searchText)
+                    || client.getEmail_client().toLowerCase().contains(searchText)
+                    || client.getAddress_client().toLowerCase().contains(searchText)
+                    || client.getPhone_client().toLowerCase().contains(searchText)) {
+                filteredList.add(client);
+            }
+        }
+        clientsTable.setItems(filteredList);
     }
 
-// Add Client Form
+    // Add Client Form
     @FXML
     private void handleAdd() {
         System.out.println("Add button clicked!");
