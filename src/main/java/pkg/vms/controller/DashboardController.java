@@ -122,6 +122,12 @@ public class DashboardController {
         }
     }
 
+    // CLICK ON BRANCH ICON IN DASHBOARD
+    @FXML
+    private void handleBranchClick() {
+        navigateTo("branches");
+    }
+
     /**
      * Central navigation for dashboard (sidebar + dashboard icons)
      */
