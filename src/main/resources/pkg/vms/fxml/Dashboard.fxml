@@ -14,7 +14,7 @@
                 prefWidth="1200" prefHeight="720">
 
 
-    <!-- ============= LEFT SIDEBAR ============= -->
+        <!-- ============= LEFT SIDEBAR ============= -->
         <left>
             <fx:include source="../fxml/layout/Sidebar.fxml"/>
         </left>
@@ -68,13 +68,13 @@
                 <!-- Row 2 -->
                 <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
                     <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"
-                                onMouseClicked="#handleBranchClick"/>
+                               onMouseClicked="#handleBranchClick"/>
                     <Label text="Branches"/>
                 </VBox>
 
                 <VBox alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
                     <ImageView fx:id="iconUsers" fitWidth="120" fitHeight="120"
-                                onMouseClicked="#handleUsersClick"/>
+                               onMouseClicked="#handleUsersClick"/>
                     <Label text="Users"/>
                 </VBox>
 
