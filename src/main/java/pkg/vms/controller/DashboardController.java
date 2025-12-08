@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import pkg.vms.controller.layout.SidebarController;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class DashboardController {
 
@@ -104,7 +105,7 @@ public class DashboardController {
     @FXML
     private void handleBranchesClick() {
         if (!iconBranches.isDisable()) {
-            navigateTo("branches");
+            navigateTo("branch");
         }
     }
 
@@ -125,13 +126,21 @@ public class DashboardController {
     // CLICK ON BRANCH ICON IN DASHBOARD
     @FXML
     private void handleBranchClick() {
-        navigateTo("branches");
+        navigateTo("branch");
     }
 
     /**
      * Central navigation for dashboard (sidebar + dashboard icons)
      */
     private void navigateTo(String target) {
+        if (rootPane == null) {
+            System.out.println("navigateTo called but rootPane is null");
+            return;
+        }
+
+        String t = target == null ? "" : target.toLowerCase(Locale.ROOT).trim();
+        System.out.println("Navigating to: " + target + " (normalized: " + t + ")");
+
         try {
             Parent view = null;
 
@@ -162,8 +171,9 @@ public class DashboardController {
                     break;
 
                 case "branches":
+                case "branch":
                     view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/branches.fxml")
+                            getClass().getResource("/pkg/vms/fxml/branch.fxml")
                     );
                     break;
 

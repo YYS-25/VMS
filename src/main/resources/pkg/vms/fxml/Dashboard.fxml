@@ -74,7 +74,7 @@
                 <VBox fx:id="vboxBranches" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="0">
                     <ImageView fx:id="iconBranches" fitWidth="120" fitHeight="120"
                                onMouseClicked="#handleBranchesClick"/>
-                    <Label text="Branches"/>
+                    <Label text="Branch"/>
                 </VBox>
 
                 <VBox fx:id="vboxUsers" alignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1">
