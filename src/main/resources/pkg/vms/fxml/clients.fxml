@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
@@ -24,6 +23,7 @@
                        prefWidth="250"/>
 
             <Button text="Search" onAction="#handleSearch"/>
+            <Button fx:id="addClientButton" text="Add Client" onAction="#handleAddClient"/>
         </HBox>
     </top>
 
@@ -33,8 +33,6 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
-
-
 
             <!-- 2. TableView -->
             <TableView fx:id="clientsTable" prefHeight="250">
@@ -62,7 +60,7 @@
 
             <Separator/>
 
-            <!-- 3. Client Details Panel -->
+            <!-- 3. Client Details Panel (Split into left and right columns) -->
             <VBox fx:id="detailsPane"
                   spacing="15"
                   visible="false"
@@ -72,47 +70,63 @@
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
 
-                <Label fx:id="detailsTitle"
-                       style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
+                <HBox spacing="10" alignment="BASELINE_CENTER" prefWidth="Infinity">
+                    <Label fx:id="detailsTitle"
+                           style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
 
-                <!-- Info grid -->
-                <GridPane hgap="20" vgap="12">
-                    <columnConstraints>
-                        <ColumnConstraints minWidth="75" halignment="LEFT"/>
-                        <ColumnConstraints hgrow="ALWAYS" halignment="LEFT"/>
-                    </columnConstraints>
+                    <Region HBox.hgrow="ALWAYS"/>
 
-                    <rowConstraints>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                        <RowConstraints minHeight="30"/>
-                    </rowConstraints>
+                    <Button fx:id="closeFormButton" text="✕"
+                            style="-fx-background-color:transparent; -fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold; -fx-cursor:hand;"
+                            onAction="#handleDetCancel"/>
+                </HBox>
 
-                    <Label text="Client ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detId" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                <!-- Info Grid Split into Left and Right Columns -->
+                <HBox spacing="15" alignment="TOP_LEFT" prefWidth="Infinity">
+                    <!-- Left VBox for half of the details -->
+                    <VBox spacing="12">
+                        <HBox spacing="10">
+                            <Label text="Client ID:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detId" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
 
-                    <Label text="Client Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detName" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        <HBox spacing="10">
+                            <Label text="Client Name:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detName" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
 
-                    <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detEmail" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        <HBox spacing="10">
+                            <Label text="Email:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detEmail" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
+                    </VBox>
 
-                    <Label text="Address:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detAddress" GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                    <Region HBox.hgrow="ALWAYS"/> <!-- This Region will take up remaining space between the left and right columns -->
 
-                    <Label text="Phone:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detPhone" GridPane.rowIndex="4" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                    <!-- Right VBox for the rest of the details -->
+                    <VBox spacing="12">
+                        <HBox spacing="10">
+                            <Label text="Address:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detAddress" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
 
-                    <Label text="Total Requests:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detRequests" GridPane.rowIndex="5" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        <HBox spacing="10">
+                            <Label text="Phone:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detPhone" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
 
-                    <Label text="Active Vouchers:" GridPane.rowIndex="6" GridPane.columnIndex="0" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
-                    <Label fx:id="detVouchers" GridPane.rowIndex="6" GridPane.columnIndex="1" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
-                </GridPane>
+                        <HBox spacing="10">
+                            <Label text="Total Requests:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detRequests" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Active Vouchers:" style="-fx-text-fill:white; -fx-font-weight:bold; -fx-alignment:CENTER_LEFT;"/>
+                            <Label fx:id="detVouchers" style="-fx-text-fill:white; -fx-alignment:CENTER_LEFT;"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
 
                 <!-- Bottom action bar -->
                 <HBox spacing="10" alignment="CENTER_LEFT">
@@ -134,9 +148,18 @@
                   managed="false"
                   style="-fx-background-color:#2d2d2d; -fx-padding:20; -fx-background-radius:10;">
 
-                <Label fx:id="formTitle"
-                       text="Add New Client"
-                       style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold;"/>
+                <HBox spacing="10" alignment="BASELINE_CENTER">
+                    <Label fx:id="formTitle"
+                           text="Add New Client"
+                           style="-fx-text-fill:white; -fx-font-size:18px; -fx-font-weight:bold; "/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="closeEditFormButton" text="✕"
+                            style="-fx-background-color:transparent; -fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold; -fx-cursor:hand;"
+                            onAction="#handleCancel">
+                    </Button>
+                </HBox>
 
                 <TextField fx:id="addName" promptText="Client Name"/>
                 <TextField fx:id="addEmail" promptText="Email"/>

@@ -2,6 +2,7 @@ package pkg.vms.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -29,6 +30,9 @@ public class ClientsController {
     @FXML private TextField addAddress;
     @FXML private TextField addPhone;
     @FXML private Label addError;
+    @FXML public Button closeFormButton;
+    @FXML public Button closeEditFormButton;
+
 
     // Switching Add/Edit Form
     @FXML private Label formTitle;
@@ -221,5 +225,43 @@ public class ClientsController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void handleAddClient(ActionEvent actionEvent) {
+        // ensure we're in Add mode
+        isEditMode = false;
+        selectedClient = null;
+
+        // reset form UI
+        formTitle.setText("Add New Client");
+        formSaveButton.setText("Save");
+
+        addName.clear();
+        addEmail.clear();
+        addAddress.clear();
+        addPhone.clear();
+        addError.setText("");
+
+        // show the add form
+        addForm.setVisible(true);
+        addForm.setManaged(true);
+
+        // focus first field
+        if (addName != null) {
+            addName.requestFocus();
+        }
+    }
+
+    @FXML
+    private void handleCancel() {
+        addForm.setVisible(false);
+        addForm.setManaged(false);
+    }
+
+    @FXML
+    private void handleDetCancel() {
+        detailsPane.setVisible(false);
+        detailsPane.setManaged(false);
     }
 }
