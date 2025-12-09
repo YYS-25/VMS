@@ -234,8 +234,9 @@ public class UsersController {
         String userRoleLower = userRole.toLowerCase().trim();
         if (!userRoleLower.equals("accountant") &&
                 !userRoleLower.equals("admin") &&
-                !userRoleLower.equals("approver")) {
-            showError("Only users with roles: Accountant, Admin, or Approver can be deleted.");
+                !userRoleLower.equals("approver") &&
+                !userRoleLower.equals("supervisor")) {
+            showError("Only users with roles: Supervisor, Admin, or Approver can be deleted.");
             return;
         }
 
