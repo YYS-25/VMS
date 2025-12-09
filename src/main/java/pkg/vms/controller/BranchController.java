@@ -46,6 +46,7 @@ public class BranchController {
 
         branchTable.setItems(branchList);
         loadBranches();
+        loadCompaniesIntoFilter();
 
         branchTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
             if (selected != null) {
@@ -158,58 +159,101 @@ public class BranchController {
 
     // Handles search functionality
     @FXML
+    private TextField searchField;
+
+    @FXML
     private void handleSearch() {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Search Branch");
-        dialog.setHeaderText("Enter branch location to search:");
-        dialog.showAndWait().ifPresent(location -> {
-            branchList.clear();
-            try (Connection conn = DBconnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement("SELECT * FROM branch WHERE location LIKE ?")) {
-                ps.setString(1, "%" + location + "%");
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    Branch branch = new Branch(
-                            rs.getInt("branch_id"),
-                            rs.getString("location"),
-                            rs.getString("responsible_user")
-                    );
-                    branchList.add(branch);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        String keyword = searchField.getText().trim();
+
+        branchList.clear();
+
+        String sql = keyword.isEmpty()
+                ? "SELECT * FROM branch"
+                : "SELECT * FROM branch WHERE location ILIKE ?";
+
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (!keyword.isEmpty()) {
+                ps.setString(1, "%" + keyword + "%");
             }
-        });
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Branch branch = new Branch(
+                        rs.getInt("branch_id"),
+                        rs.getString("location"),
+                        rs.getString("responsible_user")
+                );
+                branchList.add(branch);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-//    Handles filter functionality
+
+    //    Handles filter functionality
+    @FXML
+    private ComboBox<String> filterCompanyCombo;
+
     @FXML
     private void handleFilter() {
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("All", "All", "Location A", "Location B");
-        dialog.setTitle("Filter Branches");
-        dialog.setHeaderText("Select location to filter:");
-        dialog.showAndWait().ifPresent(location -> {
-            branchList.clear();
-            try (Connection conn = DBconnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(
-                         location.equals("All") ?
-                                 "SELECT * FROM branch" :
-                                 "SELECT * FROM branch WHERE location = ?")) {
-                if (!location.equals("All")) {
-                    ps.setString(1, location);
-                }
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    Branch branch = new Branch(
-                            rs.getInt("branch_id"),
-                            rs.getString("location"),
-                            rs.getString("responsible_user")
-                    );
-                    branchList.add(branch);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        String selected = filterCompanyCombo.getValue();
+
+        branchList.clear();
+
+        String sql;
+
+        if (selected == null || selected.equals("All Companies")) {
+            sql = "SELECT * FROM branch";
+        } else {
+            int companyId = Integer.parseInt(selected.split(" - ")[0]);
+            sql = "SELECT * FROM branch WHERE ref_company = ?";
+        }
+
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (!(selected == null || selected.equals("All Companies"))) {
+                ps.setInt(1, Integer.parseInt(selected.split(" - ")[0]));
             }
-        });
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Branch branch = new Branch(
+                        rs.getInt("branch_id"),
+                        rs.getString("location"),
+                        rs.getString("responsible_user")
+                );
+                branchList.add(branch);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCompaniesIntoFilter() {
+        try (Connection conn = DBconnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT company_id, name_company FROM company ORDER BY name_company")) {
+
+            ObservableList<String> list = FXCollections.observableArrayList();
+            list.add("All Companies");
+
+            while (rs.next()) {
+                int id = rs.getInt("company_id");
+                String name = rs.getString("name_company");
+                list.add(id + " - " + name);  // Display "3 - Toyota"
+            }
+
+            filterCompanyCombo.setItems(list);
+            filterCompanyCombo.getSelectionModel().selectFirst();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

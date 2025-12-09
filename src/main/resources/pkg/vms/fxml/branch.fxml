@@ -32,12 +32,12 @@
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Label text="🔍 Search Branch:" style="-fx-font-size:14px;"/>
                     <TextField fx:id="searchField" prefWidth="200"/>
-                    <Button text="Search" style="-fx-background-color:#e0d4b8;"/>
+                    <Button text="Search" onAction="#handleSearch" style="-fx-background-color:#e0d4b8;"/>
                 </HBox>
 
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Label text="Filter by Company:"/>
-                    <ComboBox fx:id="filterCompanyCombo" prefWidth="160"/>
+                    <ComboBox fx:id="filterCompanyCombo" prefWidth="160" onAction="#handleFilter"/>
                 </HBox>
 
                 <Button fx:id="addButton" text="+ Add New" onAction="#handleAddBranch"
