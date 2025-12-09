@@ -144,59 +144,57 @@ public class DashboardController {
         try {
             Parent view = null;
 
+            // Load the respective view for each navigation target
             switch (target) {
-
                 case "users":
-                    view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/users.fxml")
-                    );
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/fxml/users.fxml"));
                     break;
-
                 case "clients":
-                    view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/clients.fxml")
-                    );
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/fxml/clients.fxml"));
                     break;
-
                 case "vouchers":
-                    view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/vouchers.fxml")
-                    );
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/fxml/vouchers.fxml"));
                     break;
-
                 case "requests":
-                    view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/requests.fxml")
-                    );
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/fxml/requests.fxml"));
                     break;
-
                 case "branches":
                 case "branch":
-                    view = FXMLLoader.load(
+                    FXMLLoader loaderBranch = new FXMLLoader(
                             getClass().getResource("/pkg/vms/fxml/branch.fxml")
                     );
+
+                    view = loaderBranch.load();
+
+                    BranchController branchController = loaderBranch.getController();
+
+                    // When "View Companies" is clicked inside Branch page,
+                    // it will open the Company view INSIDE the dashboard pane
+                    branchController.setOpenCompanyCallback(() -> navigateTo("company"));
                     break;
 
+                case "company":
+                    // Here we load the company page while maintaining the same layout
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/view/company.fxml"));
+                    break;
                 case "reports":
-                    // TODO: Load reports view when available
                     System.out.println("Reports view not yet implemented");
                     break;
-
                 case "dashboard":
-                    view = FXMLLoader.load(
-                            getClass().getResource("/pkg/vms/fxml/Dashboard.fxml")
-                    );
+                    view = FXMLLoader.load(getClass().getResource("/pkg/vms/fxml/Dashboard.fxml"));
                     break;
             }
 
+            // Set the loaded view into the center of the root pane
             if (view != null) {
-                rootPane.setCenter(view);   // Swap the center content
+                rootPane.setCenter(view);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public void setUserInfo(String username, String role) {
         usernameLabel.setText("Logged in as: " + username);
